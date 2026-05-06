@@ -1,56 +1,26 @@
 #include "binary.h"
 using namespace std;
+
 binary::binary(){
-  head = NULL;
-  tail = NULL;
+  head = nullptr; // Start head as null.
 }
 
 binary::~binary(){
-  while(head != NULL){
-    node* temp = head;
-    head = head->right;
-    delete temp;
-  }
+    deleteBST(num); //Deconstruct.
 }
 
-void binary::build(){
-  node* current = new node();
-  head = current;
-  current->left = NULL;
-  node* left = current;
+void binary::add(node* n){
+  cout << "Adding..." << "\n" << endl;
 }
 
-void binary::print(){
-  node* current = head;
-  while(current!= NULL){
-    cout << current->tree << " ";
-    current= current->right;
-  }
-  cout << endl;
-}
-
-void binary::add(){
-  cout << "Adding..." << endl;
-  
-  int addamount;
-  cout << "How many numbers would you like to add?: ";
-  cin >> addamount;
-
-  for (int i=0; i < addamount; i++){
-    int addnumber;
-    cout << "What is your number?: ";
-    cin >> addnumber;
-    current = new node();
-    left->right = left;
-    current->tree = addnumber;
-    left = current;
-  }
-}
-
-void binary::remove(){
-  cout << "REMOVE" << endl;
+void binary::remove(node* n){
+  cout << "Removing..." << "\n" << endl; 
 }
 
 void binary::search(){
-  cout << "SEARCH" << endl;
+  cout << "Searching..." << "\n" << endl;
+}
+
+void binary::print(){
+  cout << "Printing..." << "\n" << endl;
 }
