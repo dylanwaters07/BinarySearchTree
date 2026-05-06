@@ -14,12 +14,16 @@ class binary{
  public:
   binary();
   ~binary();
-  void build();
-  void add();
-  void remove();
-  void search();
+  
+  void add(int num);
+  void remove(int num);
+  void search(int num);
   void print();
+  
  private:
-  node* head;
-  node* tail;
+    bool searchNode(node* n, int num);
+    void printBST(node* n);
+    void deleteBST(node* n);
+    
+    node* head;
 };
