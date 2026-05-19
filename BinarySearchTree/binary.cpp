@@ -2,17 +2,17 @@
 using namespace std;
 
 binary::binary(){
-  head = nullptr; // Start head as null.
+  root = nullptr; // Start root as null.
 }
 
 binary::~binary(){
-    deleteBST(num); //Deconstruct.
+    deleteBST(root); //Deconstruct.
 }
 
-void binary::add(node* n){
+void binary::add(int num){
   cout << "Adding..." << "\n" << endl;
   node* newNode = new node();
-  newNode->tree = number;
+  newNode->tree = num;
   newNode->left = nullptr;
   newNode->right = nullptr;
 
@@ -26,7 +26,7 @@ void binary::add(node* n){
 
   while(current != nullptr){
     parent = current;
-    if (number < current->tree){
+    if (num < current->tree){
       current = current->left; // If less, assign current to the left.
     }
     else{
@@ -34,6 +34,12 @@ void binary::add(node* n){
     }
   }
   
+  if(num < parent->tree){
+      parent->left = newNode;
+  }
+  else{
+      parent->right = newNode;
+  }
 }
 
 
@@ -41,16 +47,16 @@ void binary::add(node* n){
 //three cases - no children, one child, two children - are covered, including
 //deleting the root)
 
-void binary::remove(node* n){
+void binary::remove(int num){
   cout << "Removing..." << "\n" << endl;
   node* current = root;
   node* parent = nullptr;
 
   // To find the num within the tree
-  while (current != nullptr && current->tree != number){
+  while (current != nullptr && current->tree != num){
     parent = current;
 
-    if (number < current->tree){
+    if (num < current->tree){
       current = current->left;
     }
     else{
@@ -65,15 +71,11 @@ void binary::remove(node* n){
   }
 }
 
-void binary::search(){
-  cout << "Searching..." << "\n" << endl;
+void binary::search(int num){
+    cout << "Searching..." << endl;
 
-  // Use same while loop for seaching but instead of deleting...
-  // we will print it.
-  while (current != nullptr && current->tree != number){
-    parent = current;
-  }
 }
+
 
 void binary::print(){
   cout << "Printing..." << "\n" << endl;
