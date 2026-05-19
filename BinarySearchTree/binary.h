@@ -21,9 +21,9 @@ class binary{
   void print();
   
  private:
-    bool searchNode(node* n, int num);
+    void searchNode(node* n, int num);
     void printBST(node* n);
     void deleteBST(node* n);
     
-    node* head;
+    node* root;
 };
