@@ -69,7 +69,7 @@ int main(){
         
         bool found = object.search(num); // if object.search(num) returns, its true.
         
-        if (found = true){
+        if (found == true){
             cout << num << " was found in the tree..." << endl;
         }
         
