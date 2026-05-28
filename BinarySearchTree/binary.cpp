@@ -1,6 +1,15 @@
+/*
+Dylan Waters
+5/22/2026
+
+Implementation of a binary search tree.
+
+*/
+
 #include "binary.h"
 using namespace std;
 
+// Constructor and destructor.
 binary::binary(){
   root = nullptr; // Start root as null.
 }
@@ -9,8 +18,17 @@ binary::~binary(){
     deleteBST(root); //Deconstruct.
 }
 
+// Logic for deleting tree.
+void binary::deleteBST(node* n){
+    if(n == nullptr) return;
+    deleteBST(n->left);
+    deleteBST(n->right);
+    delete n;
+}
+
+// adding numbers to the tree.
 void binary::add(int num){
-  cout << "Adding..." << "\n" << endl;
+  //cout << "Adding..." << "\n" << endl;
   node* newNode = new node();
   newNode->tree = num;
   newNode->left = nullptr;
@@ -42,57 +60,116 @@ void binary::add(int num){
   }
 }
 
+// loading numbers from a file and adding to the tree.
+void binary::printFile(string filename){
+    ifstream file(filename);
+    if(!file){
+        cout << "File not found." << endl;
+        return;
+    }
+    string token;
+    while(getline(file, token, ',')){  // read until comma instead of space
+        int num = stoi(token);         // convert string to int
+        add(num);
+    }
+    file.close();
+    cout << "Numbers loaded from " << filename << endl;
+}
 
 //Numbers are removed correctly (NOTE: THIS IS NOT TRIVIAL; make sure the
 //three cases - no children, one child, two children - are covered, including
 //deleting the root)
 
-void binary::remove(int num){
-  cout << "Removing..." << "\n" << endl;
-  node* current = root;
-  node* parent = nullptr;
+// removing numbers from the tree.
+void binary::remove(int num){ // Recursive function
+    cout << "Removing..." << "\n" << endl;
+    root = remove(root, num);
+}
 
-  // To find the num within the tree
-  while (current != nullptr && current->tree != num){
-    parent = current;
+// removing numbers from the tree.
+node* binary::remove(node* n, int num){
 
-    if (num < current->tree){
-      current = current->left;
+    if (n == nullptr){ // If not found... end it
+        cout << "Number not found." << endl;
+        return nullptr;
+    }
+    
+    if(num < n->tree){ // If less, go left
+        n->left = remove(n->left, num);
+    }
+    else if(num > n->tree){ // If greater, go right
+        n->right = remove(n->right, num);
     }
     else{
-      current = current->right;
+        // Three cases
+        // No children
+        if(n->left == nullptr && n->right == nullptr){
+            delete n;
+            return nullptr;
+        }
+        // Right child
+        else if(n->left == nullptr){
+            node* temp = n->right;
+            delete n;
+            return temp;
+        }
+        // Left child
+        else if(n->right == nullptr){
+            node* temp = n->left;
+            delete n;
+            return temp;
+        }
+        // Both children
+        else{
+            node* temp = n->right;
+            temp->left = n->left;
+            delete n;
+            return temp;
+        }
     }
-
-    // If not found... end it
-    if (current == nullptr){
-      cout << "Number not found." << endl;
-      return;
-    }
-  }
+    return n;
 }
 
-void binary::search(int num){
-    cout << "Searching..." << endl;
-
+// search for a number in the tree.
+bool binary::search(int num){
+    return searchNode(root, num);
 }
 
+// search for a number in the tree.
+bool binary::searchNode(node* n, int num){
+    if(n == nullptr){
+        return false;
+    }
+    if(n->tree == num){
+        return true;
+    }
+    if(num < n->tree){
+        return searchNode(n->left, num);
+    }
+    else{
+        return searchNode(n->right, num);
+    }
+}
 
+// print the tree in a readable format.
 void binary::print(){
-  cout << "Printing..." << "\n" << endl;
-  node* current = root;
-  
-  cout << current; // Start by printing out the head
+    if(root == nullptr){
+        cout << "Tree is empty." << endl;
+        return;
+    }
+    cout << "Printing..." << endl;
+    printBST(root, 0);
+    cout << endl;
+}
 
-  if (current->left != nullptr){
-    // If we find a left node...
-    // Move up a line and print with spacing
-
-    // Start by finding the very last left node and print...
-    // And then work my way down with printing.
-  }
-
-  if (current->right != nullptr){
-    // If we find a right node...
-    // Move down a line and print with spacing
-  }
+// printing tree
+void binary::printBST(node* n, int level){
+    if(n == nullptr) return;
+    printBST(n->right, level + 1);  // Right part
+    
+    for(int i = 0; i < level; i++)  // Indenting
+        cout << "\t";
+    
+    cout << n->tree << endl;
+    printBST(n->left, level + 1);   // Left part
 }

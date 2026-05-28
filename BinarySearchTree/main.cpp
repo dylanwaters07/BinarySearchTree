@@ -1,3 +1,13 @@
+/*
+Dylan Waters
+5/22/2026
+
+Implementation of a binary search tree. The user can add, remove, print, and search for numbers in the tree.
+The user can also load numbers from a file to add to the tree. The user can also print the tree to a file.
+The user can also quit the program. The user can also get help on the commands.
+
+*/
+
 #include <iostream>
 #include "binary.h"
 using namespace std;
@@ -5,35 +15,53 @@ using namespace std;
 // https://www.cs.usfca.edu/~galles/visualization/BST.html
 // Good visualization of BST that I used.
 
+// Print menu choices for user.
+void printMenu(){
+    cout << "1 - Add" << endl;
+    cout << "2 - Remove" << endl;
+    cout << "3 - Print" << endl;
+    cout << "4 - Search" << endl;
+    cout << "5 - Quit" << endl;
+    cout << "6 - Help" << "\n" << endl;
+}
+
+// Main function for user interaction.
 int main(){
   binary object; // Define object.
   
   bool running = true;
   while (running){
     int binarycommand;  
-      
-    cout << "1 - Add" << endl;
-    cout << "2 - Remove" << endl;
-    cout << "3 - Print" << endl;
-    cout << "4 - Search" << endl;
-    cout << "5 - Quit" << endl;
-    cout << "6 - Help" << endl;
     
+    printMenu(); 
     cout << "What number relating to command you would you like to run?: ";
     cin >> binarycommand;
 
-    if (binarycommand == 1){
-        cout << "Adding..." << "\n" << endl;
-        cout << "How many numbers would you like to add?: ";
-        int addamount;
-        cin >> addamount;
+    if(binarycommand == 1){
+            int choice;
+            cout << "1 - Load from file" << endl;
+            cout << "2 - Enter manually" << endl;
+            cout << "Choice: ";
+            cin >> choice;
             
-        for(int i=0; i < addamount; i++){
-            cout << "Enter number to add: ";
-            int num;
-            cin >> num;
-            object.add(num);
-        }
+            if(choice == 1){
+                string filename;
+                cout << "Enter full filename: ";
+                cin >> filename;
+                object.printFile(filename);
+            }
+            else if(choice == 2){
+                cout << "Enter numbers: ";
+                cin.ignore();
+                string line;
+                getline(cin, line);
+                istringstream iss(line);
+                int num;
+                while(iss >> num){
+                    object.add(num);
+                }
+                cout << "Numbers added." << endl;
+            }
     }
 
     else if (binarycommand == 2){
